@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.imallbatis.dao.CategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.ly.imallbatis.model.Category">
+        <result column="id" property="id" />
+        <result column="img" property="img" />
+        <result column="index" property="index" />
+        <result column="is_root" property="isRoot" />
+        <result column="name" property="name" />
+        <result column="parent_id" property="parentId" />
+    </resultMap>
+
+    <select id="findAllCategoryByIsRoot" parameterType="boolean" resultMap="BaseResultMap">
+        select * from category
+        where is_root = #{isRoot}
+        order by `index` asc;
+    </select>
+
+    <select id="getGridCategory" resultType="com.ly.imallbatis.model.GridCategory">
+        select * from grid_category where delete_time is null;
+    </select>
+
+</mapper>

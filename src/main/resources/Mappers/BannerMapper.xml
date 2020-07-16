@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.imallbatis.dao.BannerMapper">
+    <resultMap id="BaseResultMap" type="com.ly.imallbatis.model.Banner">
+        <id column="id" property="id" />
+        <result column="img" property="img" />
+        <result column="name" property="name" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+
+        <collection property="items" ofType="com.ly.imallbatis.model.BannerItem">
+            <result column="iid" property="id" />
+            <result column="iimg" property="img" />
+            <result column="iname" property="name" />
+            <result column="ikeyword" property="keyword" />
+            <result column="ibannerId" property="bannerId" />
+            <result column="itype" property="type" />
+        </collection>
+    </resultMap>
+
+    <sql id="delete_time">
+        and b.delete_time is null
+    </sql>
+
+    <select id="getByName" parameterType="string" resultMap="BaseResultMap">
+        select b.*,
+                i.id iid, i.img iimg, i.name iname, i.keyword ikeyword, i.banner_id ibannerId, i.type itype
+        from banner b join banner_item i
+        on b.id = i.banner_id and b.name = #{name}
+        <include refid="delete_time"></include>;
+    </select>
+
+</mapper>

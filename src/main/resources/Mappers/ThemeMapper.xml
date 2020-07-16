@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.imallbatis.dao.ThemeMapper">
+
+    <select id="findByNames" resultType="com.ly.imallbatis.model.Theme">
+        select * from theme 
+        where name in 
+            <foreach collection="names" item="name" index="index" open="(" close=")" separator=",">
+                #{name}
+            </foreach>
+        ;
+    </select>
+
+    <resultMap id="BaseResultMap" type="com.ly.imallbatis.model.Theme">
+        <result column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="name" property="name" />
+        <result column="extend" property="extend" />
+        <result column="entrance_img" property="entranceImg" />
+        <result column="internal_top_img" property="internalTopImg" />
+        <result column="online" property="online" />
+        <result column="title_img" property="titleImg" />
+        <result column="tpl_name" property="tplName" />
+
+        <collection property="spuList" ofType="com.ly.imallbatis.model.Spu">
+            <result column="sid" property="id" />
+            <result column="stitle" property="title" />
+            <result column="ssubtitle" property="subtitle" />
+            <result column="scategoryId" property="categoryId" />
+            <result column="srootCategoryId" property="rootCategoryId" />
+            <result column="sonline" property="online" />
+            <result column="sprice" property="price" />
+            <result column="ssketch_spec_id" property="sketchSpecId" />
+            <result column="sdefault_sku_id" property="defaultSkuId" />
+            <result column="simg" property="img" />
+            <result column="sdiscount_price" property="discountPrice" />
+            <result column="sdescription" property="description" />
+            <result column="stags" property="tags" />
+            <result column="sis_test" property="isTest" />
+            <result column="sfor_theme_img" property="forThemeImg" />
+        </collection>
+
+    </resultMap>
+
+    <select id="findByName" resultMap="BaseResultMap">
+        select t.id, t.title, t.description, t.name, t.extend, t.entrance_img, t.internal_top_img,
+            t.online, t.title_img, t.tpl_name,
+            s.id sid, s.title stitle, s.subtitle ssubtitle,
+            s.category_id scategoryId, s.root_category_id srootCategoryId, s.online sonline, s.price sprice,
+            s.sketch_spec_id ssketch_spec_id, s.default_sku_id sdefault_sku_id, s.img simg, s.discount_price sdiscount_price,
+            s.description sdescription, s.tags stags, s.is_test sis_test, s.for_theme_img sfor_theme_img,
+            sku.title
+        from theme t left join theme_spu ts on t.id = ts.theme_id
+        left join spu s on s.id = ts.spu_id
+        left join sku on sku.spu_id = s.id
+        where t.name = #{name};
+    </select>
+
+</mapper>

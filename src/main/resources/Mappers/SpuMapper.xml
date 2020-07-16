@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.imallbatis.dao.SpuMapper">
+
+    <resultMap id="BaseResultMap" type="com.ly.imallbatis.model.Spu">
+        <result column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="subtitle" property="subtitle" />
+        <result column="category_id" property="categoryId" />
+        <result column="root_category_id" property="rootCategoryId" />
+        <result column="online" property="online" />
+        <result column="price" property="price" />
+        <result column="sketch_spec_id" property="sketchSpecId" />
+        <result column="default_sku_id" property="defaultSkuId" />
+        <result column="img" property="img" />
+        <result column="discount_price" property="discountPrice" />
+        <result column="description" property="description" />
+        <result column="tags" property="tags" />
+        <result column="is_test" property="isTest" />
+        <result column="for_theme_img" property="forThemeImg" />
+
+        <collection property="skuList" ofType="com.ly.imallbatis.model.Sku">
+            <result column="s_id" property="id" />
+            <result column="s_price" property="price" />
+            <result column="s_discount_price" property="discountPrice" />
+            <result column="s_online" property="online" />
+            <result column="s_img" property="img" />
+            <result column="s_title" property="title" />
+            <result column="s_spu_id" property="spuId" />
+            <result column="s_category_id" property="categoryId" />
+            <result column="s_root_category_id" property="rootCategoryId" />
+            <result column="s_code" property="code" />
+            <result column="s_stock" property="stock" />
+            <result column="s_specs" property="specs" />
+        </collection>
+
+        <collection property="spuImgList" ofType="com.ly.imallbatis.model.SpuImg">
+            <result column="si_id" property="id" />
+            <result column="si_img" property="img" />
+            <result column="si_spu_id" property="spuId" />
+        </collection>
+
+        <collection property="spuDetailImgList" ofType="com.ly.imallbatis.model.SpuDetailImg">
+            <result column="sdi_id" property="id" />
+            <result column="sdi_img" property="img" />
+            <result column="sdi_index" property="index" />
+            <result column="sdi_spu_id" property="spuId" />
+        </collection>
+    </resultMap>
+
+    <select id="getSpu" parameterType="long" resultMap="BaseResultMap">
+        select s.*,
+            s2.id s_id, s2.price s_price, s2.discount_price s_discount_price, s2.online sonline, s2.img simg,
+            s2.title stitle, s2.spu_id s_spu_id, s2.category_id s_category_id, s2.root_category_id s_root_category_id,
+            s2.specs s_specs, s2.code s_code, s2.stock s_stock,
+            si.id si_id, si.img si_img, si.spu_id si_spu_id,
+            sdi.id sdi_id, sdi.img sdi_img, sdi.spu_id sdi_spu_id, sdi.index sdi_index
+from spu s
+        join sku s2 on s.id = s2.spu_id
+        join spu_img si on s.id = si.spu_id
+        join spu_detail_img sdi on s.id = sdi.spu_id
+        where s.id = #{id} and s.delete_time is null and s.online = 1
+    </select>
+
+    <select id="getLatestPagingSpu"  resultType="com.ly.imallbatis.model.Spu">
+        select * from spu s order where s.delete_time is null and s.online = 1 by create_time desc
+    </select>
+    <select id="findByCategoryId" resultMap="BaseResultMap">
+        select id, title, subtitle, img, for_theme_img, price, discount_price, description,
+            tags, sketch_spec_id, create_time
+        from spu s
+        where category_id = #{cid} and s.delete_time is null and s.online = 1
+        order by create_time desc
+    </select>
+    <select id="findByRootCategoryId" resultMap="BaseResultMap">
+        select id, title, subtitle, img, for_theme_img, price, discount_price, description,
+            tags, sketch_spec_id, create_time
+        from spu s
+        where root_category_id = #{id} and s.delete_time is null and s.online = 1
+        order by create_time desc
+    </select>
+
+</mapper>

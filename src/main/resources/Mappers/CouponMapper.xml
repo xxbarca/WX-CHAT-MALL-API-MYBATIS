@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.imallbatis.dao.CouponMapper">
+
+    <select id="getByCategory" parameterType="long" resultType="com.ly.imallbatis.model.Coupon">
+        select c.* from coupon c
+        join coupon_category cc on c.id = cc.coupon_id
+        join category c2 on cc.category_id = c2.id where c2.id = #{id};
+   </select>
+
+</mapper>

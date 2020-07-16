@@ -1,0 +1,37 @@
+server:
+    tomcat:
+        uri-encoding: UTF-8
+
+spring:
+    profiles:
+        active: dev
+    jackson:
+        serialization:
+            WRITE_DATES_AS_TIMESTAMPS: true # 返回时间戳
+        property-naming-strategy: SNAKE_CASE
+    datasource:
+        url: jdbc:mysql://localhost:3306/imall?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+        username: root
+        password:
+        driver-class-name: com.mysql.jdbc.Driver
+    http:
+        encoding:
+            force: true
+            charset: UTF-8
+            enabled: true
+missyou:
+    api-package: com.ly.imallbatis.api
+    security:
+        jwt-key: liyang007
+        token-expire-in: 86400000
+
+mybatis:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+        map-underscore-to-camel-case: true  # 转驼峰
+    mapper-locations: classpath:mappers/*.xml
+
+wx:
+    appid: wxb222387282c0792f
+    appsecret: e5f2396991deffc32f976a2baf8429a5
+    code2session: https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code
