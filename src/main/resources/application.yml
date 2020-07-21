@@ -1,10 +1,11 @@
 server:
     tomcat:
         uri-encoding: UTF-8
-
 spring:
     profiles:
         active: dev
+    messages:
+        encoding: UTF-8
     jackson:
         serialization:
             WRITE_DATES_AS_TIMESTAMPS: true # 返回时间戳

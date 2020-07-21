@@ -21,6 +21,19 @@ public class JwtToken {
 
     private static Integer defaultScope = 8;
 
+    @Value("${missyou.security.jwt-key}")
+    public void setJwtKey(String jwtKey) {
+        JwtToken.jwtKey = jwtKey;
+    }
+
+    @Value("${missyou.security.token-expire-in}")
+    public void setExpiredTimeIn(Integer expiredTimeIn) {
+        JwtToken.expiredTimeIn = expiredTimeIn;
+    }
+
+    /**
+     * 获取生成token时填写的claim
+     * */
     public static Optional<Map<String, Claim>> getClaims(String token) {
         DecodedJWT decodedJWT;
         Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
@@ -36,16 +49,10 @@ public class JwtToken {
 
     }
 
-    @Value("${missyou.security.jwt-key}")
-    public void setJwtKey(String jwtKey) {
-        JwtToken.jwtKey = jwtKey;
-    }
-
-    @Value("${missyou.security.token-expire-in}")
-    public void setExpiredTimeIn(Integer expiredTimeIn) {
-        JwtToken.expiredTimeIn = expiredTimeIn;
-    }
-
+    /**
+     * uid 和 scope 写入 jwt
+     * @param {uid} 用户ID
+     * */
     public static String makeToken(Long uid) {
         return JwtToken.getToken(uid, JwtToken.defaultScope);
     }
@@ -57,6 +64,10 @@ public class JwtToken {
         return JwtToken.getToken(uid, scope);
     }
 
+    /**
+     * @param scope: 权限分级数字
+     * @param uid: 用户id
+     * */
     private static String getToken(Long uid, Integer scope) {
 
         Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
@@ -66,6 +77,7 @@ public class JwtToken {
         String token = JWT.create()
                 .withClaim("uid", uid)
                 .withClaim("scope", scope)
+                .withClaim("userName", 7)
                 .withExpiresAt(map.get("expiredTime"))
                 .withIssuedAt(map.get("now"))
                 .sign(algorithm);
@@ -73,6 +85,9 @@ public class JwtToken {
         return token;
     }
 
+    /**
+     * 到期时间
+     * */
     private static Map<String, Date> calculateExpiredIssues() {
         Map<String, Date> map = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
@@ -83,6 +98,9 @@ public class JwtToken {
         return map;
     }
 
+    /**
+     * 验证jwt
+     * */
     public static Boolean verifyToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);

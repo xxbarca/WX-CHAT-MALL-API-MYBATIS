@@ -24,5 +24,7 @@ public class User extends BaseEntity {
 
     private Long unifyUid;
 
+    private String group;
+
     private Map<String, Object> wxProfile;
 }

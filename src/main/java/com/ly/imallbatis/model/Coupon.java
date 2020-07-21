@@ -14,7 +14,9 @@ public class Coupon extends BaseEntity {
     // 外键 活动之间的联系
     private Long activityId;
     private String title;
+    // 可以使用的开始时间
     private Date startTime;
+    // 可以使用的结束时间
     private Date endTime;
     private String description;
     // 满减券 满1000减200， fullMoney -> 1000

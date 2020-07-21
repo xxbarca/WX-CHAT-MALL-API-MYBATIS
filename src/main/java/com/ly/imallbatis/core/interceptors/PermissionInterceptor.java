@@ -26,12 +26,18 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         super();
     }
 
+    /**
+     * 1. 获取到请求token
+     * 2. 验证token
+     * 3. scope
+     * 4. 读取API @ScopeLevel level值
+     * 5. 比较 scope 与 level
+     * */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         /**
          * 1. 读取@ScopeLevel里面的value值
          * */
-
         Optional<ScopeLevel> scopeLevel = this.getScopeLevel(handler);
         if (!scopeLevel.isPresent()) {
             // @ScopeLevel 注解不存在 说明是公开的方法
@@ -109,6 +115,9 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         return Optional.empty();
     }
 
+    /**
+     * 获取前端传递的token
+     * */
     private String getToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }

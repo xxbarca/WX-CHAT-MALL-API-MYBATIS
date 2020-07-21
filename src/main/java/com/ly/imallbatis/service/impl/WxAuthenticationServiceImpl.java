@@ -37,6 +37,10 @@ public class WxAuthenticationServiceImpl implements WxAuthenticationService {
     @Value("${wx.appsecret}")
     private String appsecret;
 
+    /**
+     * 1. 访问微信服务器验证code嘛是否合法
+     * 2. 生成jwt令牌
+     * */
     public String code2Session(String code) {
         String url = MessageFormat.format(this.code2session, this.appid, this.appsecret, code);
         RestTemplate restTemplate = new RestTemplate();
@@ -50,6 +54,14 @@ public class WxAuthenticationServiceImpl implements WxAuthenticationService {
         return this.registerUser(session);
     }
 
+    /**
+     * 1. code 换取 用户openid
+     * 2. openid 查用户
+     * 3. 未注册 -> openid 写入 user / 已注册 -> 查询用户信息
+     * 4. -> uid
+     * 5. uid写入jwt
+     * 6. jwt -> 小程序
+     * */
     private String registerUser(Map<String, Object> session) {
         String openid = (String) session.get("openid");
         if (openid == null) {
@@ -57,15 +69,11 @@ public class WxAuthenticationServiceImpl implements WxAuthenticationService {
         }
 
         User user = userMapper.findByOpenid(openid);
-        if (user != null) {
-            Long id = user.getId();
-            return JwtToken.makeToken(user.getId());
-        } else {
-            User user1 = User.builder().openid(openid).build();
-            userMapper.save(user1);
-            Long uid = user.getId();
-            return JwtToken.makeToken(uid);
+        if (user == null) {
+            user = User.builder().openid(openid).build();
+            userMapper.save(user);
         }
+        return JwtToken.makeToken(user.getId());
     }
 
 }

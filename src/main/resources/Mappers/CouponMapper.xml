@@ -5,7 +5,9 @@
     <select id="getByCategory" parameterType="long" resultType="com.ly.imallbatis.model.Coupon">
         select c.* from coupon c
         join coupon_category cc on c.id = cc.coupon_id
-        join category c2 on cc.category_id = c2.id where c2.id = #{id};
+        join category c2 on cc.category_id = c2.id
+        join activity a on c.activity_id = a.id
+        where c2.id = #{id} and a.start_time &lt; NOW() and a.end_time &gt; Now();
    </select>
 
 </mapper>

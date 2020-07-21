@@ -23,6 +23,7 @@ public class TokenController {
 
     @PostMapping("")
     public Map<String, String> getToken(@RequestBody @Validated TokenGetDTO userData) {
+
         Map<String, String> map = new HashMap<>();
         String token = null;
         switch (userData.getType()) {

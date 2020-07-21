@@ -30,6 +30,9 @@ public class ActivityController {
         return activityPureVo;
     }
 
+    /**
+     * 对应优惠券列表页面
+     * */
     @GetMapping("/name/{name}/with_coupon")
     public ActivityCouponVo getActivityWithCoupon(@PathVariable String name) {
         Activity activity = activityService.getByName(name);

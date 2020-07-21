@@ -31,7 +31,7 @@
     </sql>
 
     <select id="getByName" parameterType="string" resultMap="BaseResultMap">
-        select a.id, a.title, a.start_time, a.end_time, a.online, a.entrance_img, a.remark,
+        select a.*,
         c.id cid, c.title ctitle, c.activity_id cactivityid, c.start_time cstarttime,
         c.end_time cendtime, c.description cdescription, c.full_money cfull_money,
         c.minus cminus, c.rate crate, c.remark cremark, c.whole_store cwhole_store, c.type ctype

@@ -20,6 +20,7 @@ public class BannerController {
     private BannerService bannerService;
 
     @GetMapping("/name/{name}")
+    @ScopeLevel()
     public Banner getByName(@PathVariable @NotBlank String name) {
         Banner banner = bannerService.getByName(name);
         if (banner == null) {
