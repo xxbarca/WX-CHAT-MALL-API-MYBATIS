@@ -6,5 +6,13 @@ import java.util.List;
 
 public interface CouponService {
 
+    /**
+     * 根据分类获取coupon
+     * */
     List<Coupon> getByCategory(Long id);
+
+    /**
+     * 获取全场券
+     * */
+    List<Coupon> getWholeStoreCoupons();
 }

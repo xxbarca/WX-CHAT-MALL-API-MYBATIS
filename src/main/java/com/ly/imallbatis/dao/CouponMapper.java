@@ -11,4 +11,6 @@ public interface CouponMapper {
 
     List<Coupon> getByCategory(@Param("id") Long id);
 
+    List<Coupon> getWholeStoreCoupons();
+
 }

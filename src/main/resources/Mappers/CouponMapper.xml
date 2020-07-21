@@ -9,5 +9,8 @@
         join activity a on c.activity_id = a.id
         where c2.id = #{id} and a.start_time &lt; NOW() and a.end_time &gt; Now();
    </select>
+    <select id="getWholeStoreCoupons" resultType="com.ly.imallbatis.model.Coupon">
+        select * from coupon where whole_store = 1;
+    </select>
 
 </mapper>

@@ -17,4 +17,11 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getByCategory(Long id) {
         return couponMapper.getByCategory(id);
     }
+
+    @Override
+    public List<Coupon> getWholeStoreCoupons() {
+        return couponMapper.getWholeStoreCoupons();
+    }
+
+
 }
