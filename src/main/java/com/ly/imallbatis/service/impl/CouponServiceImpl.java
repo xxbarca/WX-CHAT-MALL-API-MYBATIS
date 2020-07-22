@@ -80,4 +80,19 @@ public class CouponServiceImpl implements CouponService {
         userCouponMapper.save(userCoupon);
 
     }
+
+    @Override
+    public List<Coupon> getAvailableCoupons(Long uid) {
+        return couponMapper.getAvailableCoupons(uid);
+    }
+
+    @Override
+    public List<Coupon> getUserCoupons(Long uid) {
+        return couponMapper.getUserCoupons(uid);
+    }
+
+    @Override
+    public List<Coupon> getExpiredCoupons(Long uid) {
+        return couponMapper.getExpiredCoupons(uid);
+    }
 }

@@ -15,4 +15,10 @@ public interface CouponMapper {
 
     Coupon getCouponById(Long cid);
 
+    List<Coupon> getAvailableCoupons(@Param("uid") Long uid);
+
+    List<Coupon> getUserCoupons(@Param("uid") Long uid);
+
+    List<Coupon> getExpiredCoupons(@Param("uid") Long uid);
+
 }

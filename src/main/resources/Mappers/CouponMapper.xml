@@ -9,13 +9,47 @@
         join activity a on c.activity_id = a.id
         where c2.id = #{id} and a.start_time &lt; NOW() and a.end_time &gt; Now();
    </select>
+
     <select id="getWholeStoreCoupons" resultType="com.ly.imallbatis.model.Coupon">
         select * from coupon c
         join activity a on c.activity_id = a.id
         where whole_store = 1 and a.start_time &lt; NOW() and a.end_time &gt; NOW();
     </select>
+
     <select id="getCouponById" resultType="com.ly.imallbatis.model.Coupon">
         select * from coupon where id = #{cid}
+    </select>
+
+    <select id="getAvailableCoupons" parameterType="long" resultType="com.ly.imallbatis.model.Coupon">
+        select c.* from coupon c
+        join user_coupon uc on c.id = uc.coupon_id
+        join user u on uc.user_id = u.id
+        where uc.status = 1
+        and u.id = #{uid}
+        and c.start_time &lt; NOW()
+        and c.end_time &gt; NOW()
+        and uc.order_id is null;
+    </select>
+
+    <select id="getUserCoupons" parameterType="long" resultType="com.ly.imallbatis.model.Coupon">
+        select c.* from coupon c
+        join user_coupon uc on c.id = uc.coupon_id
+        join user u on uc.user_id = u.id
+        where uc.status = 2
+        and u.id = #{uid}
+        and c.start_time &lt; NOW()
+        and c.end_time &gt; NOW()
+        and uc.order_id is null;
+    </select>
+
+    <select id="getExpiredCoupons" parameterType="long" resultType="com.ly.imallbatis.model.Coupon">
+        select c.* from coupon c
+        join user_coupon uc on c.id = uc.coupon_id
+        join user u on uc.user_id = u.id
+        where uc.status &lt;&gt; 2
+        and u.id = #{uid}
+        and c.end_time &lt; NOW()
+        and uc.order_id is null;
     </select>
 
 </mapper>
