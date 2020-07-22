@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.imallbatis.dao.UserCouponMapper">
+    <insert id="save" parameterType="com.ly.imallbatis.model.UserCoupon">
+        insert into user_coupon (user_id, coupon_id, status) values (#{userId}, #{couponId}, #{status})
+    </insert>
+
+    <select id="getByUserIdAndCouponId" parameterType="hashmap" resultType="com.ly.imallbatis.model.UserCoupon">
+        select * from user_coupon where user_id = #{map.uid} and coupon_id = #{map.cid}
+    </select>
+</mapper>

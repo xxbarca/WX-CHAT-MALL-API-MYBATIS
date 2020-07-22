@@ -15,4 +15,11 @@ public interface CouponService {
      * 获取全场券
      * */
     List<Coupon> getWholeStoreCoupons();
+
+    /**
+     * 领取一张优惠券
+     * @param {uid} 用户id
+     * @param {cid} 优惠券id
+     * */
+    void collectOneCoupon(Long uid, Long cid);
 }

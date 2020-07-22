@@ -11,6 +11,6 @@ public interface UserMapper {
 
     void save(User user);
 
-    User getUserById(Long id);
+    User getUserById(@Param("id") Long id);
 
 }

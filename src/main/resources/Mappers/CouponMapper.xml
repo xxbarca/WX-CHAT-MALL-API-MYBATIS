@@ -10,7 +10,12 @@
         where c2.id = #{id} and a.start_time &lt; NOW() and a.end_time &gt; Now();
    </select>
     <select id="getWholeStoreCoupons" resultType="com.ly.imallbatis.model.Coupon">
-        select * from coupon where whole_store = 1;
+        select * from coupon c
+        join activity a on c.activity_id = a.id
+        where whole_store = 1 and a.start_time &lt; NOW() and a.end_time &gt; NOW();
+    </select>
+    <select id="getCouponById" resultType="com.ly.imallbatis.model.Coupon">
+        select * from coupon where id = #{cid}
     </select>
 
 </mapper>

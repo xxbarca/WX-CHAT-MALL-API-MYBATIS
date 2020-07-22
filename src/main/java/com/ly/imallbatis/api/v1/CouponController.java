@@ -1,13 +1,14 @@
 package com.ly.imallbatis.api.v1;
 
+import com.ly.imallbatis.core.LocalUser;
+import com.ly.imallbatis.core.UnifyResponse;
+import com.ly.imallbatis.core.interceptors.ScopeLevel;
+import com.ly.imallbatis.exception.CreateSuccess;
 import com.ly.imallbatis.model.Coupon;
 import com.ly.imallbatis.service.CouponService;
 import com.ly.imallbatis.vo.CouponPureVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,6 @@ public class CouponController {
         return couponService.getByCategory(cid);
     }
 
-
     /**
      * 获取全场券
      * */
@@ -38,7 +38,18 @@ public class CouponController {
             return Collections.emptyList();
         }
         return CouponPureVo.getList(couponList);
+    }
 
+    /**
+     * 用户领取优惠券
+     * @param cid 优惠券id
+     * */
+    @ScopeLevel()
+    @PostMapping("/collect/{cid}")
+    public void collectCoupon(@PathVariable Long cid) {
+        Long uid = LocalUser.getUser().getId();
+        couponService.collectOneCoupon(uid, cid);
+        UnifyResponse.createSuccess(0);
     }
 
 }

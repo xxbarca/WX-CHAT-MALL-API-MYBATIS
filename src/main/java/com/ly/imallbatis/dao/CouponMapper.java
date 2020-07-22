@@ -13,4 +13,6 @@ public interface CouponMapper {
 
     List<Coupon> getWholeStoreCoupons();
 
+    Coupon getCouponById(Long cid);
+
 }

@@ -11,7 +11,7 @@
     </insert>
 
     <select id="getUserById" parameterType="long" resultType="com.ly.imallbatis.model.User">
-        select * from user;
+        select * from user where id = #{id};
     </select>
 
 
