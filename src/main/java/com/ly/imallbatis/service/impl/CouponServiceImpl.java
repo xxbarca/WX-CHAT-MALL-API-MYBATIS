@@ -70,19 +70,14 @@ public class CouponServiceImpl implements CouponService {
             throw new ParameterException(40006);
         }
 
-//        userCoupon = UserCoupon.builder()
-//                    .userId(uid)
-//                    .couponId(cid)
-//                    .status(CouponStatus.AVAILABLE.getValue())
-//                    .createTime(now)
-//                    .build();
-        UserCoupon userCoupon1 = new UserCoupon();
-        userCoupon1.setUserId(uid);
-        userCoupon1.setStatus(CouponStatus.AVAILABLE.getValue());
-        userCoupon1.setCouponId(cid);
-        userCoupon1.setCreateTime(now);
+        userCoupon = UserCoupon.builder()
+                    .userId(uid)
+                    .couponId(cid)
+                    .status(CouponStatus.AVAILABLE.getValue())
+                    .createTime(now)
+                    .build();
 
-        userCouponMapper.save(userCoupon1);
+        userCouponMapper.save(userCoupon);
 
     }
 }
