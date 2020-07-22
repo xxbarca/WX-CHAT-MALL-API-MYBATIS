@@ -5,13 +5,16 @@ import com.ly.imallbatis.core.LocalUser;
 import com.ly.imallbatis.core.UnifyResponse;
 import com.ly.imallbatis.core.interceptors.ScopeLevel;
 import com.ly.imallbatis.model.Coupon;
+import com.ly.imallbatis.model.User;
 import com.ly.imallbatis.service.CouponService;
+import com.ly.imallbatis.vo.CouponCategoryVO;
 import com.ly.imallbatis.vo.CouponPureVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/coupon")
@@ -78,4 +81,21 @@ public class CouponController {
         return CouponPureVo.getList(couponList);
     }
 
+    /**
+     * 获取我的可以使用的优惠券(带分类)
+     * */
+    @ScopeLevel()
+    @GetMapping("/myself/available/with_category")
+    public List<Coupon> getUserCouponWithCategory() {
+        User user = LocalUser.getUser();
+        List<Coupon> coupons = couponService.getAvailableCoupons(user.getId());
+        if (coupons.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return coupons;
+//        return coupons.stream().map(coupon -> {
+//            CouponCategoryVO vo = new CouponCategoryVO(coupon);
+//            return vo;
+//        }).collect(Collectors.toList());
+    }
 }
