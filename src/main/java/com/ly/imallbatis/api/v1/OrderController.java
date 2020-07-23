@@ -3,6 +3,7 @@ package com.ly.imallbatis.api.v1;
 import com.ly.imallbatis.core.LocalUser;
 import com.ly.imallbatis.core.interceptors.ScopeLevel;
 import com.ly.imallbatis.dto.OrderDTO;
+import com.ly.imallbatis.logic.OrderChecker;
 import com.ly.imallbatis.service.OrderService;
 import com.ly.imallbatis.vo.OrderIdVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class OrderController {
     @ScopeLevel()
     public OrderIdVO placeOrder(@RequestBody OrderDTO orderDTO) {
         Long uid = LocalUser.getUser().getId();
-        orderService.isOk(uid, orderDTO);
+        OrderChecker orderChecker = orderService.isOk(uid, orderDTO);
         return null;
     }
 

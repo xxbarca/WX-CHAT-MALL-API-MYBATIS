@@ -31,7 +31,7 @@
             <result column="s_root_category_id" property="rootCategoryId" />
             <result column="s_code" property="code" />
             <result column="s_stock" property="stock" />
-            <result column="s_specs" property="specs" />
+            <result column="s_specs" property="specsTemp" />
         </collection>
 
         <collection property="spuImgList" ofType="com.ly.imallbatis.model.SpuImg">
@@ -63,7 +63,7 @@ from spu s
     </select>
 
     <select id="getLatestPagingSpu"  resultType="com.ly.imallbatis.model.Spu">
-        select * from spu s order where s.delete_time is null and s.online = 1 by create_time desc
+        select * from spu s where s.delete_time is null and s.online = 1 order by create_time desc
     </select>
     <select id="findByCategoryId" resultMap="BaseResultMap">
         select id, title, subtitle, img, for_theme_img, price, discount_price, description,

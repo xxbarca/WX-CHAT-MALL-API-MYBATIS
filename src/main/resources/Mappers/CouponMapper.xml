@@ -16,8 +16,11 @@
         where whole_store = 1 and a.start_time &lt; NOW() and a.end_time &gt; NOW();
     </select>
 
-    <select id="getCouponById" resultType="com.ly.imallbatis.model.Coupon">
-        select * from coupon where id = #{cid}
+    <select id="getCouponById" resultMap="CouponBaseMap">
+
+            select c.*, cc.category_id c_id from coupon c
+            join coupon_category cc on c.id = cc.coupon_id
+            where c.id = #{cid};
     </select>
 
     <resultMap id="CouponBaseMap" type="com.ly.imallbatis.model.Coupon">

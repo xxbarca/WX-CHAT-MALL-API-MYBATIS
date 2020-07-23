@@ -1,5 +1,6 @@
 package com.ly.imallbatis.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ly.imallbatis.core.money.IMoneyDiscount;
 import com.ly.imallbatis.dao.UserCouponMapper;
 import com.ly.imallbatis.dto.OrderDTO;
@@ -7,13 +8,16 @@ import com.ly.imallbatis.dto.SkuInfoDTO;
 import com.ly.imallbatis.exception.http.NotFoundException;
 import com.ly.imallbatis.exception.http.ParameterException;
 import com.ly.imallbatis.logic.CouponChecker;
+import com.ly.imallbatis.logic.OrderChecker;
 import com.ly.imallbatis.model.Coupon;
 import com.ly.imallbatis.model.Sku;
+import com.ly.imallbatis.model.Spec;
 import com.ly.imallbatis.model.UserCoupon;
 import com.ly.imallbatis.service.CouponService;
 import com.ly.imallbatis.service.OrderService;
 import com.ly.imallbatis.service.SkuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -37,9 +41,15 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private IMoneyDiscount iMoneyDiscount;
 
+    @Value("${missyou.order.max-sku-limit}")
+    private Integer maxSkuLimit;
+
+    @Value("${missyou.order.pay-time-limit}")
+    private Integer payTimeLimit;
+
 
     @Override
-    public void isOk(Long uid, OrderDTO orderDTO) {
+    public OrderChecker isOk(Long uid, OrderDTO orderDTO) {
 
         // 判断价格是否小于0
         if (orderDTO.getFinalTotalPrice().compareTo(new BigDecimal("0")) <= 0) {
@@ -52,7 +62,11 @@ public class OrderServiceImpl implements OrderService {
                                 .map(SkuInfoDTO::getId)
                                 .collect(Collectors.toList());
         List<Sku> skuList = skuService.getSkuListByIds(skuIdList);
-
+        skuList.stream().forEach(sku -> {
+            String specs_temp = sku.getSpecsTemp();
+            List<Spec> specList = JSONObject.parseArray(specs_temp, Spec.class);
+            sku.setSpecs(specList);
+        });
         //
         Long couponId = orderDTO.getCouponId();
         CouponChecker couponChecker = null;
@@ -71,9 +85,10 @@ public class OrderServiceImpl implements OrderService {
                 throw new NotFoundException(50006);
             }
             //
-            couponChecker = new CouponChecker(coupon, userCoupon, iMoneyDiscount);
+            couponChecker = new CouponChecker(coupon, iMoneyDiscount);
         }
-
-
+        OrderChecker orderChecker = new OrderChecker(orderDTO, skuList, couponChecker, maxSkuLimit);
+        orderChecker.isOk();
+        return orderChecker;
     }
 }

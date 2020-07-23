@@ -2,6 +2,7 @@ package com.ly.imallbatis.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ly.imallbatis.dao.SpuMapper;
@@ -10,6 +11,7 @@ import com.ly.imallbatis.model.Spec;
 import com.ly.imallbatis.model.Spu;
 import com.ly.imallbatis.service.SpuService;
 import com.ly.imallbatis.vo.SpuSimplifyVO;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,11 @@ public class SpuServiceImpl implements SpuService {
     @Override
     public Spu getSpu(Long id) {
         Spu spu = spuMapper.getSpu(id);
-
+        spu.getSkuList().stream().forEach(sku -> {
+            String specs_temp = sku.getSpecsTemp();
+            List<Spec> specList = JSONObject.parseArray(specs_temp, Spec.class);
+            sku.setSpecs(specList);
+        });
         return spu;
     }
     

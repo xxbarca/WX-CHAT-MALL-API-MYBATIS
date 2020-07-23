@@ -27,10 +27,19 @@ public class Sku extends BaseEntity {
     private Long categoryId;
     private Long rootCategoryId;
 
-//    private List<Spec> specs;
-    private String specs;
+    private List<Spec> specs;
+    @JsonIgnore
+    private String specsTemp;
     private String code;
 
     private Long stock;
+
+    public BigDecimal getActualPrice() {
+        return discountPrice == null ? price : discountPrice;
+    }
+
+    public List<String> getSpecValueList() {
+        return specs.stream().map(Spec::getValue).collect(Collectors.toList());
+    }
 
 }
