@@ -33,6 +33,11 @@ public class CouponServiceImpl implements CouponService {
     private UserCouponMapper userCouponMapper;
 
     @Override
+    public Coupon getCouponById(Long id) {
+        return couponMapper.getCouponById(id);
+    }
+
+    @Override
     public List<Coupon> getByCategory(Long id) {
         return couponMapper.getByCategory(id);
     }

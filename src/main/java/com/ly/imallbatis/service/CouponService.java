@@ -7,6 +7,11 @@ import java.util.List;
 public interface CouponService {
 
     /**
+     * 根据id获取优惠券
+     * */
+    Coupon getCouponById(Long id);
+
+    /**
      * 根据分类获取coupon
      * */
     List<Coupon> getByCategory(Long id);
