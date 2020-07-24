@@ -4,7 +4,7 @@
 
 
     <insert id="save" parameterType="com.ly.imallbatis.model.Order" useGeneratedKeys="true" keyProperty="id">
-        insert into `order` (order_no, total_price, final_total_price, user_id, total_count, snap_img, snap_title, status, snap_address, snap_items)
-        values (#{orderNo}, #{totalPrice}, #{finalTotalPrice}, #{userId}, #{totalCount}, #{snapImg}, #{snapTitle}, #{status}, #{snapAddress}, #{snapItems})
+        insert into `order` (order_no, total_price, final_total_price, user_id, total_count, snap_img, snap_title, status, snap_address, snap_items, placed_time, expired_time)
+        values (#{orderNo}, #{totalPrice}, #{finalTotalPrice}, #{userId}, #{totalCount}, #{snapImg}, #{snapTitle}, #{status}, #{snapAddress}, #{snapItems}, #{placedTime}, #{expiredTime})
     </insert>
 </mapper>

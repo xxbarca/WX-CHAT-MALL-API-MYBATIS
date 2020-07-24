@@ -2,6 +2,7 @@ package com.ly.imallbatis.util;
 
 import com.ly.imallbatis.bo.PageCounter;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class CommonUtil {
@@ -21,5 +22,10 @@ public class CommonUtil {
             return true;
         }
         return false;
+    }
+
+    public static Calendar addSomeSeconds(Calendar calendar, int seconds) {
+        calendar.add(Calendar.SECOND, seconds);
+        return calendar;
     }
 }

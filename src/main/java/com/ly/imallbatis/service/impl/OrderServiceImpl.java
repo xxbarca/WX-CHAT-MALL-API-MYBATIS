@@ -18,6 +18,7 @@ import com.ly.imallbatis.model.*;
 import com.ly.imallbatis.service.CouponService;
 import com.ly.imallbatis.service.OrderService;
 import com.ly.imallbatis.service.SkuService;
+import com.ly.imallbatis.util.CommonUtil;
 import com.ly.imallbatis.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,6 +103,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker) {
         String orderNo = OrderUtil.makeOrderNo();
+        Calendar now = Calendar.getInstance();
+        Calendar createTime = (Calendar) now.clone();
+        now.add(Calendar.SECOND, payTimeLimit);
+        Date expiredTime = CommonUtil.addSomeSeconds(now, payTimeLimit).getTime();
         Order order = Order.builder()
                 .orderNo(orderNo)
                 .totalPrice(orderDTO.getTotalPrice())
@@ -113,6 +116,8 @@ public class OrderServiceImpl implements OrderService {
                 .snapImg(orderChecker.getLeaderImg())
                 .snapTitle(orderChecker.getLeaderTitle())
                 .status(OrderStatus.UNPAID.value())
+                .expiredTime(expiredTime)
+                .placedTime(createTime.getTime())
                 .build();
 
         String snapAddress = JSON.toJSONString(orderDTO.getAddress());
@@ -120,6 +125,7 @@ public class OrderServiceImpl implements OrderService {
 
         String snapItems = JSONArray.toJSONString(orderDTO.getSkuInfoList());
         order.setSnapItems(snapItems);
+
 
         orderMapper.save(order);
 
