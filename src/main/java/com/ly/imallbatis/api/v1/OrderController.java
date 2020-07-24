@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     /**
-     * 查询未支付
+     * 查询未支付订单
      * */
     @ScopeLevel()
     @GetMapping("/status/unpaid")
@@ -40,6 +40,21 @@ public class OrderController {
         PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
         PageInfo<OrderSimplifyVo> orderPageInfo = orderService.getUnPaid(pageCounter.getPage(), pageCounter.getCount());
         return orderPageInfo;
+    }
+
+    /**
+     * 查询其他状态订单
+     * */
+    @ScopeLevel()
+    @GetMapping("/by/status/{status}")
+    public PageInfo<OrderSimplifyVo> getOrderByStatus(
+                                @PathVariable int status,
+                                @RequestParam(defaultValue = "0") Integer start,
+                                @RequestParam(defaultValue = "10") Integer count) {
+        PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
+        PageInfo<OrderSimplifyVo> orderPageInfo = orderService.getOrderByStatus(status, pageCounter.getPage(), pageCounter.getCount());
+        return orderPageInfo;
+
     }
 
 }

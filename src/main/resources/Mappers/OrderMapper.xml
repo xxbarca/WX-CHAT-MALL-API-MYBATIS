@@ -14,4 +14,13 @@
         and user_id = #{uid}
         and expired_time &gt; NOW()
     </select>
+    <select id="getOrderByStatus" resultType="com.ly.imallbatis.model.Order">
+        select * from `order`
+        where status = #{status}
+        and user_id = #{uid}
+    </select>
+    <select id="getOrderByUserId" resultType="com.ly.imallbatis.model.Order">
+        select * from `order`
+        where user_id = #{uid}
+    </select>
 </mapper>

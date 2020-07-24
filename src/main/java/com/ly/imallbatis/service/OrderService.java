@@ -29,4 +29,10 @@ public interface OrderService {
      * 获取未支付订单
      * */
     PageInfo<OrderSimplifyVo> getUnPaid(Integer pageNum, Integer pageSize);
+
+    /**
+     * 查询其他状态订单
+     * @param status 订单状态
+     * */
+    PageInfo<OrderSimplifyVo> getOrderByStatus(Integer status, Integer pageNum, Integer pageSize);
 }

@@ -145,11 +145,35 @@ public class OrderServiceImpl implements OrderService {
         return order.getId();
     }
 
+    /**
+     * 获取未支付订单
+     * */
     @Override
     public PageInfo<OrderSimplifyVo> getUnPaid(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Long uid = LocalUser.getUser().getId();
         List<Order> orderList = orderMapper.getUnPaid(uid, OrderStatus.UNPAID.value());
+        return getOrderSimplifyVoPageInfo(orderList);
+    }
+
+    /**
+     * 根据状态获取订单
+     * */
+    @Override
+    public PageInfo<OrderSimplifyVo> getOrderByStatus(Integer status, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Long uid = LocalUser.getUser().getId();
+        List<Order> orderList = null;
+        if (status == OrderStatus.All.value()) {
+            orderList = orderMapper.getOrderByUserId(uid);
+        } else {
+            orderList = orderMapper.getOrderByStatus(status, uid);
+        }
+
+        return getOrderSimplifyVoPageInfo(orderList);
+    }
+
+    private PageInfo<OrderSimplifyVo> getOrderSimplifyVoPageInfo(List<Order> orderList) {
         List<OrderSimplifyVo> orderSimplifyVoList = orderList.stream().map(s -> {
             OrderSimplifyVo orderSimplifyVo = new OrderSimplifyVo();
             BeanUtils.copyProperties(s, orderSimplifyVo);
