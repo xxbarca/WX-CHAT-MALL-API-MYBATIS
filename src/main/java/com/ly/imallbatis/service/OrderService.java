@@ -1,8 +1,12 @@
 package com.ly.imallbatis.service;
 
+import com.github.pagehelper.PageInfo;
 import com.ly.imallbatis.dto.OrderDTO;
 import com.ly.imallbatis.logic.CouponChecker;
 import com.ly.imallbatis.logic.OrderChecker;
+import com.ly.imallbatis.model.Order;
+import com.ly.imallbatis.vo.OrderSimplifyVo;
+import com.ly.imallbatis.vo.SpuSimplifyVO;
 
 public interface OrderService {
 
@@ -20,4 +24,9 @@ public interface OrderService {
      * @param orderChecker 优惠券校验类
      * */
     Long placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker);
+
+    /**
+     * 获取未支付订单
+     * */
+    PageInfo<OrderSimplifyVo> getUnPaid(Integer pageNum, Integer pageSize);
 }

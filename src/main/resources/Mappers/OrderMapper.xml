@@ -7,4 +7,11 @@
         insert into `order` (order_no, total_price, final_total_price, user_id, total_count, snap_img, snap_title, status, snap_address, snap_items, placed_time, expired_time)
         values (#{orderNo}, #{totalPrice}, #{finalTotalPrice}, #{userId}, #{totalCount}, #{snapImg}, #{snapTitle}, #{status}, #{snapAddress}, #{snapItems}, #{placedTime}, #{expiredTime})
     </insert>
+
+    <select id="getUnPaid" resultType="com.ly.imallbatis.model.Order">
+        select * from `order`
+        where status = #{unpaid}
+        and user_id = #{uid}
+        and expired_time &gt; NOW()
+    </select>
 </mapper>

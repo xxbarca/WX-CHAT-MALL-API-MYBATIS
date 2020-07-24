@@ -3,7 +3,10 @@ package com.ly.imallbatis.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ly.imallbatis.core.Enumeration.OrderStatus;
+import com.ly.imallbatis.core.LocalUser;
 import com.ly.imallbatis.core.money.IMoneyDiscount;
 import com.ly.imallbatis.dao.OrderMapper;
 import com.ly.imallbatis.dao.UserCouponMapper;
@@ -20,6 +23,9 @@ import com.ly.imallbatis.service.OrderService;
 import com.ly.imallbatis.service.SkuService;
 import com.ly.imallbatis.util.CommonUtil;
 import com.ly.imallbatis.util.OrderUtil;
+import com.ly.imallbatis.vo.OrderSimplifyVo;
+import com.ly.imallbatis.vo.SpuSimplifyVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -137,6 +143,20 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return order.getId();
+    }
+
+    @Override
+    public PageInfo<OrderSimplifyVo> getUnPaid(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Long uid = LocalUser.getUser().getId();
+        List<Order> orderList = orderMapper.getUnPaid(uid, OrderStatus.UNPAID.value());
+        List<OrderSimplifyVo> orderSimplifyVoList = orderList.stream().map(s -> {
+            OrderSimplifyVo orderSimplifyVo = new OrderSimplifyVo();
+            BeanUtils.copyProperties(s, orderSimplifyVo);
+            return orderSimplifyVo;
+        }).collect(Collectors.toList());
+        PageInfo<OrderSimplifyVo> pageInfo = new PageInfo<>(orderSimplifyVoList);
+        return pageInfo;
     }
 
     /**

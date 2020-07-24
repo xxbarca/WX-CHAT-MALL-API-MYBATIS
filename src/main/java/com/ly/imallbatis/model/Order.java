@@ -1,8 +1,6 @@
 package com.ly.imallbatis.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,6 +8,8 @@ import java.util.Date;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order extends BaseEntity {
     private Long id;
 
