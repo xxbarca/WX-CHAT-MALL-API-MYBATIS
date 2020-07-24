@@ -22,6 +22,7 @@ spring:
             enabled: true
 missyou:
     api-package: com.ly.imallbatis.api
+    year-codes: A,B,C,D,E,F,G,H,I,J,K,L
     security:
         jwt-key: liyang007
         token-expire-in: 86400000

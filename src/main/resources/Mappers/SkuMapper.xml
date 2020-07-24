@@ -14,6 +14,12 @@
         <result column="root_category_id" property="rootCategoryId" />
         <result column="specs" property="specsTemp" />
     </resultMap>
+    <update id="reduceStock" useGeneratedKeys="true" keyProperty="id">
+        update sku s
+        set s.stock = (s.stock - #{quantity})
+        where s.id = #{sid}
+        and s.stock &gt;= #{quantity}
+    </update>
 
     <select id="getSkuListByIds" parameterType="long" resultMap="BaseMap">
         select * from sku

@@ -24,7 +24,8 @@ public class OrderController {
     public OrderIdVO placeOrder(@RequestBody OrderDTO orderDTO) {
         Long uid = LocalUser.getUser().getId();
         OrderChecker orderChecker = orderService.isOk(uid, orderDTO);
-        return null;
+        Long orderId = orderService.placeOrder(uid, orderDTO, orderChecker);
+        return new OrderIdVO(orderId);
     }
 
 }

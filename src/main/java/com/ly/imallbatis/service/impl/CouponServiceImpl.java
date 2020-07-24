@@ -69,6 +69,7 @@ public class CouponServiceImpl implements CouponService {
         Map<String, Object> map = new HashMap<>();
         map.put("uid", uid);
         map.put("cid", cid);
+        map.put("status", 1);
 
         UserCoupon userCoupon = userCouponMapper.getByUserIdAndCouponId(map);
         if (userCoupon != null) {

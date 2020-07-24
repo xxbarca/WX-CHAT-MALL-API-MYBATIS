@@ -18,4 +18,9 @@ public class SkuServiceImpl implements SkuService {
     public List<Sku> getSkuListByIds(List<Long> ids) {
         return skuMapper.getSkuListByIds(ids);
     }
+
+    @Override
+    public int reduceStock(Long sid, Long quantity) {
+        return skuMapper.reduceStock(sid, quantity);
+    }
 }

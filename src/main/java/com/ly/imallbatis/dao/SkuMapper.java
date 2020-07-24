@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface SkuMapper {
     List<Sku> getSkuListByIds(@Param("ids") List<Long> ids);
+
+    int reduceStock(@Param("sid") Long sid, @Param("quantity") Long quantity);
 }
