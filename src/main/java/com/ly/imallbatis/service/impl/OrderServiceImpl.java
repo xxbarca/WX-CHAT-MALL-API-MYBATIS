@@ -127,10 +127,10 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         String snapAddress = JSON.toJSONString(orderDTO.getAddress());
-        order.setSnapAddress(snapAddress);
+        order.setSnapAddressTemp(snapAddress);
 
         String snapItems = JSONArray.toJSONString(orderDTO.getSkuInfoList());
-        order.setSnapItems(snapItems);
+        order.setSnapItemsTemp(snapItems);
 
 
         orderMapper.save(order);
@@ -171,6 +171,19 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return getOrderSimplifyVoPageInfo(orderList);
+    }
+
+    @Override
+    public Order getOrder(Long oid) {
+        Long uid = LocalUser.getUser().getId();
+        Order order = orderMapper.getOrder(oid, uid);
+        List<SkuInfoDTO> skuInfoDTOList = JSONObject.parseArray(order.getSnapItemsTemp(), SkuInfoDTO.class);
+        order.setSnapItems(skuInfoDTOList);
+
+        Address address = JSON.parseObject(order.getSnapAddressTemp(), Address.class);
+        order.setSnapAddress(address);
+        return order;
+
     }
 
     private PageInfo<OrderSimplifyVo> getOrderSimplifyVoPageInfo(List<Order> orderList) {

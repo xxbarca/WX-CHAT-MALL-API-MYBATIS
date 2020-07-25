@@ -20,6 +20,7 @@ public interface OrderMapper {
 
     List<Order> getOrderByUserId(@Param("uid") Long uid);
 
+    Order getOrder(@Param("oid") Long oid, @Param("uid") Long uid);
 
 
 }

@@ -5,13 +5,16 @@ import com.ly.imallbatis.bo.PageCounter;
 import com.ly.imallbatis.core.LocalUser;
 import com.ly.imallbatis.core.interceptors.ScopeLevel;
 import com.ly.imallbatis.dto.OrderDTO;
+import com.ly.imallbatis.exception.http.NotFoundException;
 import com.ly.imallbatis.logic.OrderChecker;
 import com.ly.imallbatis.model.Order;
 import com.ly.imallbatis.service.OrderService;
 import com.ly.imallbatis.util.CommonUtil;
 import com.ly.imallbatis.vo.OrderIdVO;
+import com.ly.imallbatis.vo.OrderPureVO;
 import com.ly.imallbatis.vo.OrderSimplifyVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +23,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Value("${missyou.order.pay-time-limit}")
+    private Long payTimeLimit;
 
     @PostMapping("")
     @ScopeLevel()
@@ -55,6 +61,19 @@ public class OrderController {
         PageInfo<OrderSimplifyVo> orderPageInfo = orderService.getOrderByStatus(status, pageCounter.getPage(), pageCounter.getCount());
         return orderPageInfo;
 
+    }
+
+    /**
+     * 获取订单详情
+     * */
+    @ScopeLevel()
+    @GetMapping("/detail/{id}")
+    public OrderPureVO getOrderDetail(@PathVariable(name = "id") Long oid) {
+        Order order = orderService.getOrder(oid);
+        if (order == null) {
+            throw new NotFoundException(50009);
+        }
+        return new OrderPureVO(order, payTimeLimit);
     }
 
 }

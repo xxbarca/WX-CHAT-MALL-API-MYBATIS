@@ -5,7 +5,7 @@
 
     <insert id="save" parameterType="com.ly.imallbatis.model.Order" useGeneratedKeys="true" keyProperty="id">
         insert into `order` (order_no, total_price, final_total_price, user_id, total_count, snap_img, snap_title, status, snap_address, snap_items, placed_time, expired_time)
-        values (#{orderNo}, #{totalPrice}, #{finalTotalPrice}, #{userId}, #{totalCount}, #{snapImg}, #{snapTitle}, #{status}, #{snapAddress}, #{snapItems}, #{placedTime}, #{expiredTime})
+        values (#{orderNo}, #{totalPrice}, #{finalTotalPrice}, #{userId}, #{totalCount}, #{snapImg}, #{snapTitle}, #{status}, #{snapAddressTemp}, #{snapItemsTemp}, #{placedTime}, #{expiredTime})
     </insert>
 
     <select id="getUnPaid" resultType="com.ly.imallbatis.model.Order">
@@ -22,5 +22,30 @@
     <select id="getOrderByUserId" resultType="com.ly.imallbatis.model.Order">
         select * from `order`
         where user_id = #{uid}
+    </select>
+
+    <resultMap id="BaseMap" type="com.ly.imallbatis.model.Order">
+        <result column="id" property="id" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="total_price" property="totalPrice" />
+        <result column="total_count" property="totalCount" />
+        <result column="snap_img" property="snapImg" />
+        <result column="snap_title" property="snapTitle" />
+        <result column="expired_time" property="expiredTime" />
+        <result column="placed_time" property="placedTime" />
+        <result column="snap_items" property="snapItemsTemp" />
+        <result column="snap_address" property="snapAddressTemp" />
+        <result column="prepay_id" property="prepayId" />
+        <result column="final_total_price" property="finalTotalPrice" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <select id="getOrder" parameterType="long" resultMap="BaseMap">
+        select id, order_no, user_id, total_price, total_count, snap_img, snap_title, expired_time, placed_time,
+        snap_items, snap_address, prepay_id, final_total_price, status, create_time
+        from `order`
+        where id = #{oid} and user_id = #{uid}
     </select>
 </mapper>

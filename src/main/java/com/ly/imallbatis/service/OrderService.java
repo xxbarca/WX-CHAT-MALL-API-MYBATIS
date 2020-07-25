@@ -35,4 +35,9 @@ public interface OrderService {
      * @param status 订单状态
      * */
     PageInfo<OrderSimplifyVo> getOrderByStatus(Integer status, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据id获取订单详情
+     * */
+    Order getOrder(Long oid);
 }
