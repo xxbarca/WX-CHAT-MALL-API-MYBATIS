@@ -2,8 +2,7 @@ package com.ly.imallbatis.api.v1;
 
 import com.ly.imallbatis.dto.TokenGetDTO;
 import com.ly.imallbatis.exception.http.NotFoundException;
-import com.ly.imallbatis.service.WxAuthenticationService;
-import org.apache.ibatis.annotations.Param;
+import com.ly.imallbatis.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,7 @@ import java.util.Map;
 public class TokenController {
 
     @Autowired
-    private WxAuthenticationService wxAuthenticationService;
+    private AuthenticationService authenticationService;
 
     @PostMapping("")
     public Map<String, String> getToken(@RequestBody @Validated TokenGetDTO userData) {
@@ -28,9 +27,10 @@ public class TokenController {
         String token = null;
         switch (userData.getType()) {
             case USER_EMAIL:
+                token = authenticationService.code2SessionByEmail(userData.getAccount());
                 break;
             case USER_WX:
-                token = wxAuthenticationService.code2Session(userData.getAccount());
+                token = authenticationService.code2Session(userData.getAccount());
                 break;
             default:
                 throw new NotFoundException(10003);

@@ -5,11 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ly.imallbatis.dao.UserMapper;
 import com.ly.imallbatis.exception.http.ParameterException;
 import com.ly.imallbatis.model.User;
-import com.ly.imallbatis.service.WxAuthenticationService;
+import com.ly.imallbatis.service.AuthenticationService;
 import com.ly.imallbatis.util.JwtToken;
-import com.sun.corba.se.spi.ior.ObjectKey;
-import org.apache.ibatis.builder.ParameterExpression;
-import org.hibernate.procedure.ParameterMisuseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,9 +15,10 @@ import org.springframework.web.client.RestTemplate;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
-public class WxAuthenticationServiceImpl implements WxAuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     private UserMapper userMapper;
@@ -52,6 +50,17 @@ public class WxAuthenticationServiceImpl implements WxAuthenticationService {
             e.printStackTrace();
         }
         return this.registerUser(session);
+    }
+
+    @Override
+    public String code2SessionByEmail(String email) {
+        User user = userMapper.findByEmail(email);
+        if (user == null) {
+            String openid = UUID.randomUUID().toString();
+            user = User.builder().openid(openid).email(email).build();
+            userMapper.save(user);
+        }
+        return JwtToken.makeToken(user.getId());
     }
 
     /**

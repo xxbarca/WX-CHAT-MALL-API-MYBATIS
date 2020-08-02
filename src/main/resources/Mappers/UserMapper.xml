@@ -7,13 +7,15 @@
     </select>
 
     <insert id="save" parameterType="com.ly.imallbatis.model.User">
-        insert into user (openid) values (#{openid})
+        insert into user (openid, email) values (#{openid}, #{email})
     </insert>
 
     <select id="getUserById" parameterType="long" resultType="com.ly.imallbatis.model.User">
         select * from user where id = #{id};
     </select>
-
+    <select id="findByEmail" resultType="com.ly.imallbatis.model.User">
+        select * from user where email = #{email}
+    </select>
 
 
 </mapper>
