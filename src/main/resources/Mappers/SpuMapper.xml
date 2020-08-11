@@ -50,8 +50,8 @@
 
     <select id="getSpu" parameterType="long" resultMap="BaseResultMap">
         select s.*,
-            s2.id s_id, s2.price s_price, s2.discount_price s_discount_price, s2.online sonline, s2.img simg,
-            s2.title stitle, s2.spu_id s_spu_id, s2.category_id s_category_id, s2.root_category_id s_root_category_id,
+            s2.id s_id, s2.price s_price, s2.discount_price s_discount_price, s2.online s_online, s2.img s_img,
+            s2.title s_title, s2.spu_id s_spu_id, s2.category_id s_category_id, s2.root_category_id s_root_category_id,
             s2.specs s_specs, s2.code s_code, s2.stock s_stock,
             si.id si_id, si.img si_img, si.spu_id si_spu_id,
             sdi.id sdi_id, sdi.img sdi_img, sdi.spu_id sdi_spu_id, sdi.index sdi_index
