@@ -56,9 +56,9 @@
             si.id si_id, si.img si_img, si.spu_id si_spu_id,
             sdi.id sdi_id, sdi.img sdi_img, sdi.spu_id sdi_spu_id, sdi.index sdi_index
 from spu s
-        join sku s2 on s.id = s2.spu_id
-        join spu_img si on s.id = si.spu_id
-        join spu_detail_img sdi on s.id = sdi.spu_id
+        left join sku s2 on s.id = s2.spu_id
+        left join spu_img si on s.id = si.spu_id
+        left join spu_detail_img sdi on s.id = sdi.spu_id
         where s.id = #{id} and s.delete_time is null and s.online = 1
     </select>
 
