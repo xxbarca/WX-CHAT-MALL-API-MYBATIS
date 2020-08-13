@@ -3,7 +3,7 @@
 <mapper namespace="com.ly.imallbatis.dao.UserMapper">
 
     <select id="findByOpenid" parameterType="string" resultType="com.ly.imallbatis.model.User">
-        select * from user where delete_time is null;
+        select * from user where openid = #{openid} and delete_time is null;
     </select>
 
     <insert id="save" parameterType="com.ly.imallbatis.model.User">
