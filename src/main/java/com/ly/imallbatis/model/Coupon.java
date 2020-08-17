@@ -32,5 +32,5 @@ public class Coupon extends BaseEntity {
     // 类型
     private Integer type;
 
-    private List<Category> categoryList;
+    private List<Category> categories;
 }

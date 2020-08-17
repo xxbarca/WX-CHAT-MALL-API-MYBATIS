@@ -12,7 +12,7 @@ public class CouponCategoryVO extends CouponPureVo {
     public CouponCategoryVO(Coupon coupon) {
         super(coupon);
 
-        List<Category> categories = coupon.getCategoryList();
+        List<Category> categories = coupon.getCategories();
 
         categories.forEach(category -> {
             CategoryPureVO vo = new CategoryPureVO(category);

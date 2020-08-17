@@ -36,7 +36,7 @@
         <result column="remark" property="remark" />
         <result column="whole_store" property="wholeStore" />
         <result column="type" property="type" />
-        <collection property="categoryList" ofType="com.ly.imallbatis.model.Category">
+        <collection property="categories" ofType="com.ly.imallbatis.model.Category">
             <result column="c_id" property="id"/>
             <result column="c_name" property="name" />
             <result column="c_description" property="description" />

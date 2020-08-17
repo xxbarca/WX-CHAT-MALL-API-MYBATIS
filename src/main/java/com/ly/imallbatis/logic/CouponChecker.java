@@ -76,7 +76,7 @@ public class CouponChecker {
         if (coupon.getWholeStore()) {
             orderCategoryPrice = serverTotalPrice;
         } else {
-            List<Long> cidList = coupon.getCategoryList().stream()
+            List<Long> cidList = coupon.getCategories().stream()
                                 .map(Category::getId)
                                 .collect(Collectors.toList());
             orderCategoryPrice = getSumByCategoryList(skuOrderBOList, cidList);
