@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @ControllerAdvice
@@ -41,7 +42,7 @@ public class GlobalExceptionAdvice {
      * 已知异常处理
      * */
     @ExceptionHandler(value = HttpException.class)
-    public ResponseEntity<UnifyResponse> handleHttpException(HttpServletRequest request, HttpException e) {
+    public ResponseEntity<UnifyResponse> handleHttpException(HttpServletRequest request, HttpException e) throws UnsupportedEncodingException {
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
         UnifyResponse message = new UnifyResponse(e.getCode(), codeConfiguration.getMessage(e.getCode()), method + " " + requestUrl);

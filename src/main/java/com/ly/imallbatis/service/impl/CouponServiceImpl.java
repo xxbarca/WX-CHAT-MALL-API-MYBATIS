@@ -54,6 +54,7 @@ public class CouponServiceImpl implements CouponService {
         if (coupon == null) {
             throw new NotFoundException(40003);
         }
+        // 优惠券对应的活动是否存在
         // coupon 领取日期是否过期 -> 判断活动是否过期
         Activity activity = activityMapper.getByCouponId(cid);
         if (activity == null) {
