@@ -21,9 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryPureVO> findAllCategoryByIsRoot(Boolean isRoot) {
         List<Category> categoryList = categoryMapper.findAllCategoryByIsRoot(isRoot);
         List<CategoryPureVO> categoryPureVOList = categoryList.stream()
-                    .map(r -> {
-                        return new CategoryPureVO(r);
-                    }).collect(Collectors.toList());
+                    .map(r -> new CategoryPureVO(r)).collect(Collectors.toList());
         return categoryPureVOList;
     }
 
