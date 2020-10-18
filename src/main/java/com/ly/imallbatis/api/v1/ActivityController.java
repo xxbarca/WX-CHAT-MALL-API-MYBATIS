@@ -25,7 +25,6 @@ public class ActivityController {
         if (activity == null) {
             throw new NotFoundException(40001);
         }
-
         ActivityPureVo activityPureVo = new ActivityPureVo(activity);
         return activityPureVo;
     }

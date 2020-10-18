@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CouponPureVo {
     private Long id;
+    private Long userId;
 
     // 外键 活动之间的联系
     private Long activity_id;

@@ -7,7 +7,9 @@ import com.ly.imallbatis.util.GenericAndJson;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,8 +40,11 @@ public class Sku extends BaseEntity {
         return discountPrice == null ? price : discountPrice;
     }
 
+    // TODO - 有bug
     public List<String> getSpecValueList() {
-        return specs.stream().map(Spec::getValue).collect(Collectors.toList());
+        return specs == null ?
+                Collections.emptyList()
+                : specs.stream().map(Spec::getValue).collect(Collectors.toList());
     }
 
 }

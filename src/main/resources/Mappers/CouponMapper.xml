@@ -72,7 +72,7 @@ where c.id = #{cid};
         and u.id = #{uid}
         and c.start_time &lt; NOW()
         and c.end_time &gt; NOW()
-        and uc.order_id is null;
+        and uc.order_id is not null;
     </select>
 
     <select id="getExpiredCoupons" parameterType="long" resultMap="CouponBaseMap">

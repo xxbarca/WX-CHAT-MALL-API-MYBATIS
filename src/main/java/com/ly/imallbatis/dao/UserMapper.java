@@ -4,6 +4,8 @@ import com.ly.imallbatis.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 @Repository
 public interface UserMapper {
 
@@ -14,5 +16,7 @@ public interface UserMapper {
     void save(User user);
 
     User getUserById(@Param("id") Long id);
+
+    void updateUserWxInfo(Map<String,Object> user);
 
 }
