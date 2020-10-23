@@ -1,6 +1,7 @@
 package com.ly.imallbatis.vo;
 
 import com.ly.imallbatis.core.LocalUser;
+import com.ly.imallbatis.core.interceptors.ScopeLevel;
 import com.ly.imallbatis.model.Activity;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,10 @@ public class ActivityCouponVo extends ActivityPureVo {
         super(activity);
         this.coupons = activity.getCouponList().stream().map(coupon -> {
             CouponPureVo couponPureVo = new CouponPureVo(coupon);
+
+            if (coupon.getUser_id() != null) {
+                couponPureVo.setUserCollected(true);
+            }
             return couponPureVo;
         }).collect(Collectors.toList());
     }

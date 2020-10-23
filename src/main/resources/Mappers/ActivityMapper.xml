@@ -23,6 +23,7 @@
             <result column="cremark" property="remark" />
             <result column="cwhole_store" property="wholeStore" />
             <result column="ctype" property="type" />
+            <result column="user_id" property="user_id" />
         </collection>
     </resultMap>
 
@@ -32,12 +33,14 @@
 
     <select id="getByName" parameterType="string" resultMap="BaseResultMap">
         select a.*,
+        uc.user_id user_id,
         c.id cid, c.title ctitle, c.activity_id cactivityid, c.start_time cstarttime,
         c.end_time cendtime, c.description cdescription, c.full_money cfull_money,
         c.minus cminus, c.rate crate, c.remark cremark, c.whole_store cwhole_store, c.type ctype
         from activity a
         left join coupon c
         on a.id = c.activity_id
+        left join user_coupon uc on c.id = uc.coupon_id
         where name = #{name}
         <include refid="delete_time" />;
     </select>

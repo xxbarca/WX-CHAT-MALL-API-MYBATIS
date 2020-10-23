@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 public class Coupon extends BaseEntity {
     private Long id;
+    private Long user_id;
 
     // 外键 活动之间的联系
     private Long activityId;

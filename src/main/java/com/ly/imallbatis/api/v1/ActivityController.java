@@ -1,6 +1,7 @@
 package com.ly.imallbatis.api.v1;
 
 
+import com.ly.imallbatis.core.interceptors.ScopeLevel;
 import com.ly.imallbatis.exception.http.NotFoundException;
 import com.ly.imallbatis.model.Activity;
 import com.ly.imallbatis.service.ActivityService;
@@ -32,6 +33,7 @@ public class ActivityController {
     /**
      * 对应优惠券列表页面
      * */
+    @ScopeLevel()
     @GetMapping("/name/{name}/with_coupon")
     public ActivityCouponVo getActivityWithCoupon(@PathVariable String name) {
         Activity activity = activityService.getByName(name);

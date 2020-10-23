@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class CouponPureVo {
     private Long id;
     private Long userId;
+    private Boolean userCollected;
 
     // 外键 活动之间的联系
     private Long activity_id;
